@@ -4,13 +4,113 @@
     <!---Imports d3 and topojson --->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
+    <style>
+        .gridlines line {
+            stroke: #bbb;
+        }
+
+        .gridlines .domain {
+            stroke: none;
+        }
+    </style>
 </head>
 
 <body>
     <h3>
         Leina Li (ll736), Aditya Manthri (anm97)
     </h3>
+    <svg id="scattersvg" height="500" width="500" style="border:1px solid black"></svg>
     <script>
+        const scatsvg = d3.select("svg#scattersvg");
+        width = scatsvg.attr("width");
+        height = scatsvg.attr("height");
+        const margins = { top: 10, right: 10, bottom: 50, left: 50 };
+        const chartWidth = width - margins.left - margins.right;
+        const chartHeight = height - margins.top - margins.bottom;
+
+        var dataset;
+        d3.csv('./pokedex.csv', d3.autoType)
+                .then((data) => { 
+                    
+                    dataset = data;
+                    
+                    yExtent = d3.extent(data, d=>d['Total']);
+                    xExtent = d3.extent(data, d=>d['Generation']);
+                    typeExtent = [];
+                    data.forEach(function(d) {
+                        if (!typeExtent.includes(d['Type I'])){
+                            typeExtent.push(d['Type I']);
+                        }
+                    });
+                    console.log(typeExtent)
+                    yScale = d3.scaleLinear().domain(yExtent).range([chartHeight, 0]);
+                    xScale = d3.scaleLinear().domain(xExtent).range([0, chartWidth]);
+                    colors = [
+                        "#FF0000", // Red
+                        "#FFA500", // Orange
+                        "#FFFF00", // Yellow
+                        "#008000", // Green
+                        "#00FFFF", // Cyan
+                        "#0000FF", // Blue
+                        "#800080", // Purple
+                        "#FFC0CB", // Pink
+                        "#A52A2A", // Brown
+                        "#000000", // Black
+                        "#808080", // Gray
+                        "#FFFFFF", // White
+                        "#800000", // Maroon
+                        "#FFFFF0", // Ivory
+                        "#F0FFF0", // Honeydew
+                        "#F0FFFF", // Azure
+                        "#F5F5DC"  // Beige
+                    ];
+                    const typeScale = d3.scaleOrdinal().domain(typeExtent).range(colors);
+                    let chartArea = scatsvg.append('g')
+                        .attr('transform', `translate(${margins.left}, ${margins.top})`);
+
+                    let leftAxis = d3.axisLeft(yScale);
+                    scatsvg.append('g')
+                        .attr('class', 'y axis')
+                        .attr('transform', `translate(${margins.left - 10},${margins.top})`)
+                        .call(leftAxis);
+
+                    let bottomAxis = d3.axisBottom(xScale)
+                        .tickFormat(d3.format(".0f"))
+                        .ticks(9)
+                    let element = scatsvg.append('g')
+                        .attr('class', 'y axis')
+                        .attr('transform', `translate(${margins.left},${chartHeight + margins.top + 10})`)
+                        .call(bottomAxis);
+
+                    let leftGridlines = d3.axisLeft(yScale)
+                        .tickSize(-chartWidth - 10)
+                        .tickFormat('');
+                    scatsvg.append('g').attr('class', 'gridlines')
+                        .attr('transform', `translate(${margins.left - 10},${margins.top})`)
+                        .call(leftGridlines)
+
+                    let bottomGridlines = d3.axisBottom(xScale)
+                        .tickSize(-chartHeight - 10)
+                        .tickFormat('')
+                        .ticks(9);
+                    scatsvg.append('g').attr('class', 'gridlines')
+                        .attr('transform', `translate(${margins.left},${chartHeight + margins.top + 10})`)
+                        .call(bottomGridlines);
+
+                    data.forEach((d, i) => {
+                        chartArea.append('circle')
+                            .attr('cx', xScale(d['Generation']))
+                            .attr('cy', yScale(d['Total']))
+                            .attr('r', '5px')
+                            .attr('opacity', 0.5)
+                            .style('fill', typeScale(d['Type I']))
+                            // .style('stroke', typeScale(d['Type II'])) //need to handle when there's no type
+                            // .style('stroke-width', 3);
+                    });
+
+                    chartArea.raise()
+
+        });
 
     </script>
 </body>
