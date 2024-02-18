@@ -679,7 +679,7 @@ Nat,Pokemon,HP,Atk,Def,SpA,SpD,Spe,Total,Type I,Type II,Ability I,Ability II,Hid
 678,Male Meowstic,74,48,76,83,81,104,466,Psychic,,Keen Eye,Infiltrator,Prankster,2 Spd,M (100%),Field,,75,Level 25,6
 679,Honedge,45,80,100,35,37,28,325,Steel,Ghost,No Guard,,,1 Def,Neutral,Mineral,,180,,6
 680,Doublade,59,110,150,45,49,35,448,Steel,Ghost,No Guard,,,2 Def,Neutral,Mineral,,90,Level 35,6
-681,S Aegislash,60,50,140,50,140,60,500,Steel,Ghost,Stance Change,,,"2 Def, 1 SpD",Neutral,Mineral,,45,Dusk Stone,6
+681,Aegislash,60,50,140,50,140,60,500,Steel,Ghost,Stance Change,,,"2 Def, 1 SpD",Neutral,Mineral,,45,Dusk Stone,6
 682,Spritzee,78,52,60,63,65,23,341,Fairy,,Healer,,Aroma Veil,1 HP,Neutral,Fairy,,200,,6
 683,Aromatisse,101,72,72,99,89,29,462,Fairy,,Healer,,Aroma Veil,2 HP,Neutral,Fairy,,140,Trade w/ Satchet,6
 684,Swirlix,62,48,66,59,57,49,341,Fairy,,Sweet Veil,,Unburden,1 Def,Neutral,Fairy,,200,,6
@@ -708,8 +708,8 @@ Nat,Pokemon,HP,Atk,Def,SpA,SpD,Spe,Total,Type I,Type II,Ability I,Ability II,Hid
 707,Klefki,57,80,91,80,87,75,470,Steel,Fairy,Prankster,,Magician,1 Def,Neutral,Mineral,,75,N,6
 708,Phantump,43,70,48,50,60,38,309,Grass,Ghost,Natural Cure,Frisk,Harvest,1 Atk,Neutral,Grass,Amorphous,120,,6
 709,Trevenant,85,110,76,65,82,56,474,Grass,Ghost,Natural Cure,Frisk,Harvest,2 Atk,Neutral,Grass,Amorphous,60,Trade,6
-710,S Pumpkaboo,44,66,70,44,55,56,335,Grass,Ghost,Pickup,Frisk,Insomnia,1 Def,Neutral,Amorphous,,120,,6
-711,Sm Gourgeist,55,85,122,58,75,99,494,Grass,Ghost,Pickup,Frisk,Insomnia,2 Def,Neutral,Amorphous,,60,Trade,6
+710,Pumpkaboo,44,66,70,44,55,56,335,Grass,Ghost,Pickup,Frisk,Insomnia,1 Def,Neutral,Amorphous,,120,,6
+711,Gourgeist,55,85,122,58,75,99,494,Grass,Ghost,Pickup,Frisk,Insomnia,2 Def,Neutral,Amorphous,,60,Trade,6
 712,Bergmite,55,69,85,32,35,28,304,Ice,,Own Tempo,Ice Body,Sturdy,1 Def,Neutral,Monster,Mineral,190,,6
 713,Avalugg,95,117,184,44,46,28,514,Ice,,Own Tempo,Ice Body,Sturdy,2 Def,Neutral,Monster,Mineral,55,Level 37,6
 714,Noibat,40,30,35,45,40,55,245,Flying,Dragon,Frisk,Infiltrator,Telepathy,1 Spd,Neutral,Flying,Dragon,190,,6
@@ -822,11 +822,11 @@ Nat,Pokemon,HP,Atk,Def,SpA,SpD,Spe,Total,Type I,Type II,Ability I,Ability II,Hid
 821,Rookidee,38,47,35,33,35,57,245,Flying,,Keen Eye,Unnerve,Big Pecks,1 Spd,Neutral,Flying,,255,,8
 822,Corvisquire,68,67,55,43,55,77,365,Flying,,Keen Eye,Unnerve,Big Pecks,2 Spd,Neutral,Flying,,120,Level 18,8
 823,Corviknight,98,87,105,53,85,67,495,Flying,Steel,Pressure,Unnerve,Mirror Armor,3 Def,Neutral,Flying,,45,Level 38,8
-824,Blipibug,25,20,20,25,45,45,180,Bug,,Swarm,Compound Eyes,Telepathy,1 SpD,Neutral,Bug,,255,,8
+824,Blipbug,25,20,20,25,45,45,180,Bug,,Swarm,Compound Eyes,Telepathy,1 SpD,Neutral,Bug,,255,,8
 825,Dottler,50,35,80,50,90,30,335,Bug,,Swarm,Compound Eyes,Telepathy,2 SpD,Neutral,Bug,,120,Level 10,8
 826,Orbeetle,60,45,110,80,120,90,505,Bug,Psychic,Swarm,Frisk,Telepathy,3 SpD,Neutral,Bug,,45,Level 30,8
 827,Nickit,40,28,28,47,52,50,245,Dark,,Run Away,Unburden,Stakeout,1 SpD,Neutral,Field,,255,,8
-828,Theivul,70,58,58,87,92,90,455,Dark,,Run Away,Unburden,Stakeout,2 SpD,Neutral,Field,,127,Level 18,8
+828,Thievul,70,58,58,87,92,90,455,Dark,,Run Away,Unburden,Stakeout,2 SpD,Neutral,Field,,127,Level 18,8
 829,Gossifleur,40,40,60,40,60,10,250,Grass,,Cotton Down,Regenerator,Effect Spore,1 SpD,Neutral,Grass,,190,,8
 830,Eldegoss,60,50,90,80,120,60,460,Grass,,Cotton Down,Regenerator,Effect Spore,2 SpD,Neutral,Grass,,75,Level 20,8
 831,Wooloo,42,40,55,40,45,48,270,Normal,,Fluffy,Run Away,Bulletproof,1 Def,Neutral,Field,,255,,8
@@ -869,12 +869,12 @@ Nat,Pokemon,HP,Atk,Def,SpA,SpD,Spe,Total,Type I,Type II,Ability I,Ability II,Hid
 868,Milcrey,45,40,40,50,61,34,270,Fairy,,Sweet Veil,,Aroma Veil,1 SpD,F (100%),Fairy,Amorphous,200,,8
 869,Alcremie,65,60,75,110,121,64,495,Fairy,,Sweet Veil,,Aroma Veil,2 SpD,F (100%),Fairy,Amorphous,100,"Spin Time, Time of Day, Item Dependant",8
 870,Falinks,65,100,100,70,60,75,470,Fighting,,Battle Armor,,Defiant,"2 Atk, 1 SpD",None,Fairy,Mineral,45,N,8
-871,Pinurchin,48,101,95,91,85,15,435,Electric,,Lightning Rod,,Electric Surge,2 Atk,Neutral,Water 1,Amorphous,75,N,8
+871,Pincurchin,48,101,95,91,85,15,435,Electric,,Lightning Rod,,Electric Surge,2 Atk,Neutral,Water 1,Amorphous,75,N,8
 872,Snom,30,25,35,45,30,20,185,Ice,Bug,Shield Dust,,Ice Scales,1 SpA,Neutral,Bug,,190,,8
 873,Frosmoth,70,65,60,125,90,65,475,Ice,Bug,Shield Dust,,Ice Scales,2 SpA,Neutral,Bug,,75,"High Friendship, Night",8
 874,Stonjourner,100,125,135,20,20,70,470,Rock,,Power Spot,,,2 Def,Neutral,Mineral,,60,N,8
 875,Eiscue,75,80,110,65,90,50,470,Ice,,Ice Face,,,2 Def,Neutral,Water 1,Field,60,N,8
-876,M Indeedee,60,65,55,105,95,95,475,Psychic,,Inner Focus,Synchronize,Psychic Surge,2 SpA,M (100%),Fairy,,30,N,8
+876,Indeedee,60,65,55,105,95,95,475,Psychic,,Inner Focus,Synchronize,Psychic Surge,2 SpA,M (100%),Fairy,,30,N,8
 877,Morpeko,58,95,58,70,58,97,436,Electric,Dark,Hunger Switch,,,2 Spd,Neutral,Field,Fairy,180,N,8
 878,Cufant,72,80,49,40,49,40,330,Steel,,Sheer Force,,Heavy Metal,1 Atk,Neutral,Field,Mineral,190,,8
 879,Copperajah,122,130,69,80,69,30,500,Steel,,Sheer Force,,Heavy Metal,2 Atk,Neutral,Field,Mineral,90,Level 34,8
@@ -886,8 +886,8 @@ Nat,Pokemon,HP,Atk,Def,SpA,SpD,Spe,Total,Type I,Type II,Ability I,Ability II,Hid
 885,Dreepy,28,60,30,40,30,82,270,Dragon,Ghost,Clear Body,Infiltrator,Cursed Body,1 Spd,Neutral,Amorphous,Dragon,45,,8
 886,Drakloak,68,80,50,60,50,102,410,Dragon,Ghost,Clear Body,Infiltrator,Cursed Body,2 Spd,Neutral,Amorphous,Dragon,45,Level 50,8
 887,Dragapult,88,120,75,100,75,142,600,Dragon,Ghost,Clear Body,Infiltrator,Cursed Body,3 Spd,Neutral,Amorphous,Dragon,45,Level 60,8
-888,Zacian (H),92,120,115,80,115,138,660,Fairy,,Intrepid Sword,,,3 Spd,None,-,,10,N,8
-889,Zamazenta (H),92,120,115,80,115,138,660,Fighting,,Dauntless Shield,,,3 Spd,None,-,,10,N,8
+888,Zacian,92,120,115,80,115,138,660,Fairy,,Intrepid Sword,,,3 Spd,None,-,,10,N,8
+889,Zamazenta,92,120,115,80,115,138,660,Fighting,,Dauntless Shield,,,3 Spd,None,-,,10,N,8
 890,Eternatus,140,85,95,145,95,130,690,Poison,Dragon,Pressure,,,3 HP,None,-,,255,N,8
 891,Kubfu,60,90,60,53,50,72,385,Fighting,,Inner Focus,,,1 Atk,M (87.5%),-,,3,,8
 892,Urshifu SS,100,130,100,63,60,97,550,Fighting,Dark,Unseen Fist,,,3 Atk,M (87.5%),-,,3,"Level 30, Darkness Scroll",8
@@ -900,7 +900,7 @@ Nat,Pokemon,HP,Atk,Def,SpA,SpD,Spe,Total,Type I,Type II,Ability I,Ability II,Hid
 899,Wyrdeer,103,105,72,105,75,65,525,Normal,Psychic,Intimidate,Frisk,Sap Sipper,1 Atk,Neutral,Field,,?,Agile Psyshield Bash x20,8
 900,Kleavor,70,130,95,45,75,85,500,Bug,Rock,Swarm,Sheer Force,Sharpness,2 Atk,Neutral,Bug,,?,Black Augerite,8
 901,Ursaluna,130,140,105,45,80,50,550,Normal,Ground,Guts,Bulletproof,Unnerve,3 Atk,Neutral,Field,,?,"Peat Block, Full Moon",8
-902,MBasculegion,120,112,65,80,75,78,530,Water,Ghost,Rattled,Adaptability,Mold Breaker,2 HP,M (100%),Water 2,,?,"M, Recoil 294 HP w/out Faint",8
+902,Basculegion,120,112,65,80,75,78,530,Water,Ghost,Rattled,Adaptability,Mold Breaker,2 HP,M (100%),Water 2,,?,"M, Recoil 294 HP w/out Faint",8
 903,Sneasler,80,130,60,40,80,120,510,Poison,Fighting,Pressure,,Poison Touch,"1 Atk, 1 Spd",Neutral,Field,,?,Razor Claw during the Day,8
 904,Overqwil,85,115,95,65,65,85,510,Poison,Dark,Poison Point,Swift Swim,Intimidate,1 Atk,Neutral,Water 2,,?,Strong Barb Barrage x20,8
 905,Enamorus,74,115,70,135,80,106,580,Fairy,Flying,Healer,,Contrary,3 Spa,F (100%),-,,?,N,8
@@ -997,7 +997,7 @@ Nat,Pokemon,HP,Atk,Def,SpA,SpD,Spe,Total,Type I,Type II,Ability I,Ability II,Hid
 996,Frigibax,65,75,45,35,45,55,320,Dragon,Ice,Thermal Exchange,,Ice Body,1 Atk,Neutral,Dragon,Mineral,45,,9
 997,Arctibax,90,95,66,45,65,62,423,Dragon,Ice,Thermal Exchange,,Ice Body,2 Atk,Neutral,Dragon,Mineral,25,Level 35,9
 998,Baxcalibur,115,145,92,75,86,87,600,Dragon,Ice,Thermal Exchange,,Ice Body,3 Atk,Neutral,Dragon,Mineral,10,Level 54,9
-999,Gimmighoul (Chest),45,30,70,75,70,10,300,Ghost,,Rattled,,,1 SpA,None,-,,45,,9
+999,Gimmighoul,45,30,70,75,70,10,300,Ghost,,Rattled,,,1 SpA,None,-,,45,,9
 "1,000",Gholdengo,87,60,95,133,91,84,550,Ghost,Steel,Good as Gold,,,2 SpA,None,-,,45,"Level, 999 Gimmighoul Coins",9
 "1,001",Wo-Chien,85,85,100,95,165,70,600,Dark,Grass,Tablets of Ruin,,,3 SpD,None,-,,6,N,9
 "1,002",Chien-Pao,80,120,80,90,65,135,570,Dark,Ice,Sword of Ruin,,,3 Spd,None,-,,6,N,9
@@ -1011,7 +1011,7 @@ Nat,Pokemon,HP,Atk,Def,SpA,SpD,Spe,Total,Type I,Type II,Ability I,Ability II,Hid
 "1,010",Iron Leaves,90,130,88,70,108,104,590,Grass,Psychic,Quark Drive,,,3 Atk,None,-,,5,N,9
 "1,011",Dipplin,80,80,110,95,80,40,485,Grass,Dragon,Supersweet Syrup,Gluttony,Sticky Hold,,,,,,,9
 "1,012",Poltchageist,40,45,45,74,54,50,308,Grass,Ghost,Hospitality,,Heatproof,,,,,,,9
-"1,013",Sinischa,71,60,106,121,80,70,508,Grass,Ghost,Hospitality,,Heatproof,,,,,,,9
+"1,013",Sinistcha,71,60,106,121,80,70,508,Grass,Ghost,Hospitality,,Heatproof,,,,,,,9
 "1,014",Okidogi,88,128,115,58,86,80,555,Poison,Fighting,Toxic Chain,,Guard Dog,,,,,,,9
 "1,015",Munkidori,88,75,66,130,90,106,555,Poison,Psychic,Toxic Chain,,Frisk,,,,,,N,9
 "1,016",Fezandipiti,88,91,82,70,125,99,555,Poison,Fairy,Toxic Chain,,Technician,,,,,,N,9
