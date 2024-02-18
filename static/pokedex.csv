@@ -805,7 +805,7 @@ Nat,Pokemon,HP,Atk,Def,SpA,SpD,Spe,Total,Type I,Type II,Ability I,Ability II,Hid
 804,Naganadel,73,73,73,127,73,121,540,Poison,Dragon,Beast Boost,,,3 SpA,None,-,,45,"Level Up, Knows Dragon Pulse",7
 805,Stakataka,61,131,211,53,101,13,570,Rock,Steel,Beast Boost,,,3 Def,None,-,,30,N,7
 806,Blacephalon,53,127,53,151,79,107,570,Fire,Ghost,Beast Boost,,,3 SpA,None,-,,30,N,7
-807,Zerora,88,112,75,102,80,143,600,Electric,,Volt Absorb,,,3 Spd,None,-,,3,N,7
+807,Zeraora,88,112,75,102,80,143,600,Electric,,Volt Absorb,,,3 Spd,None,-,,3,N,7
 808,Meltan,46,65,65,55,35,34,300,Steel,,Magnet Pull,,,1 Atk,None,-,,3,,7
 809,Melmetal,135,143,143,80,65,34,600,Steel,,Iron Fist,,,3 Atk,None,-,,3,400 Meltan Candy (GO Only),7
 810,Grookey,50,65,50,40,40,65,310,Grass,,Overgrow,,Grassy Surge,1 Atk,M (87.5%),Field,Grass,45,,8

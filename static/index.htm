@@ -123,11 +123,13 @@
                         chartArea.selectAll('circle')
                             .data(data)
                             .enter().append('circle')
-                            .attr('cx', function(d) { return xScale(d['Generation']); })
-                            .attr('cy', function(d) { return yScale(d['Total']); })
+                            .attr('cx', d => xScale(d['Generation']) + (Math.random() - 0.5) * 10) // Jitter in the X direction
+                            .attr('cy', d => yScale(d['Total']))
                             .attr('r', '5px')
                             .attr('opacity', 0.5)
                             .style('fill', function(d) { return typeScale(d['Type I']); })
+                            // When setting the position of each circle, add a small random value
+
                             
                             .on("mouseover", function(event, d) {
                                 // Define stats and maximum value for scaling the bars
