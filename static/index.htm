@@ -4,6 +4,17 @@
     <!---Imports d3 and topojson --->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
+
+    <div id="type-selection">
+        <div>Select Types:</div>
+        <!-- Dynamically populate types as checkboxes -->
+    </div>
+    
+    <div id="filter-mode">
+        <label><input type="radio" name="filterMode" value="or" checked> OR</label>
+        <label><input type="radio" name="filterMode" value="and"> AND</label>
+    </div>
+
     <style>
         .gridlines line {
             stroke: #bbb;
@@ -28,6 +39,7 @@
             transition: opacity 0.3s;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
         }
+
     </style>
 </head>
 
@@ -47,6 +59,7 @@
         const chartWidth = width - margins.left - margins.right;
         const chartHeight = height - margins.top - margins.bottom;
         let selectedPoints = [];
+        
 
         var comparisonDiv = d3.select("body").append("div")
             .attr("class", "comparison")
@@ -67,26 +80,42 @@
                     }
                 });
                 console.log(typeExtent)
+
+
+
+
+                const typeSelectionDiv = d3.select("#type-selection");
+                typeExtent.forEach(function(type) {
+                    typeSelectionDiv.append("label")
+                        .text(type)
+                        .append("input")
+                        .attr("type", "checkbox")
+                        .attr("name", "type")
+                        .attr("value", type)
+                        .style("margin-left", "5px")
+                        .style("margin-right", "15px"); // Style as needed
+                });
                 yScale = d3.scaleLinear().domain(yExtent).range([chartHeight, 0]);
                 xScale = d3.scaleLinear().domain(xExtent).range([0, chartWidth]);
                 colors = [
-                    "#FF0000", // Red
-                    "#FFA500", // Orange
-                    "#FFFF00", // Yellow
-                    "#008000", // Green
-                    "#00FFFF", // Cyan
-                    "#0000FF", // Blue
-                    "#800080", // Purple
-                    "#FFC0CB", // Pink
-                    "#A52A2A", // Brown
-                    "#000000", // Black
-                    "#808080", // Gray
-                    "#FFFFFF", // White
-                    "#800000", // Maroon
-                    "#FFFFF0", // Ivory
-                    "#F0FFF0", // Honeydew
-                    "#F0FFFF", // Azure
-                    "#F5F5DC"  // Beige
+                    "#7AC74C", // Grass
+                    "#EE8130", // Fire
+                    "#6390F0", // Water
+                    "#A6B91A", // Bug
+                    "#A8A77A", // Normal
+                    "#A33EA1", // Poison
+                    "#F7D02C", // Electric
+                    "#E2BF65", // Ground
+                    "#D685AD", // Fairy
+                    "#C22E28", // Fighting
+                    "#F95587", // Psychic
+                    "#B6A136", // Rock
+                    "#735797", // Ghost
+                    "#96D9D6", // Ice
+                    "#6F35FC", // Dragon
+                    "#705746", // Dark
+                    "#B7B7CE", // Steel
+                    "#A98FF3"  // Flying
                 ];
                 const typeScale = d3.scaleOrdinal().domain(typeExtent).range(colors);
                 let chartArea = scatsvg.append('g')
@@ -197,7 +226,52 @@
                         }
                     })
 
-                    .on("mouseover", function (event, d) {
+                    .on("mouseover", showTooltip)
+
+                    .on("mouseout", unshowtooltip);
+
+                    d3.selectAll("#type-selection input[type='checkbox'], #filter-mode input[type='radio']").on("change", function() {
+                        updateChart();
+                    });
+
+                    function updateChart() {
+                        // Assuming filteredData is your data array after applying the filter
+                        const selectedTypes = d3.selectAll("#type-selection input[type='checkbox']:checked").nodes().map(el => el.value);
+                        const filterMode = d3.select("#filter-mode input[type='radio']:checked").node().value;
+
+                        let filteredData;
+                        if (filterMode === "or") {
+                            filteredData = dataset.filter(d => selectedTypes.includes(d['Type I']) || selectedTypes.includes(d['Type II']));
+                        } else if (filterMode === "and") {
+                            filteredData = dataset.filter(d => selectedTypes.length === 0 || (selectedTypes.includes(d['Type I']) && selectedTypes.includes(d['Type II'])) || (selectedTypes.includes(d['Type II']) && selectedTypes.includes(d['Type I'])));
+                        }
+
+                        // Bind filtered data to circles
+                        const circles = chartArea.selectAll("circle")
+                            .data(filteredData, d => d.Pokemon); // Use Pokemon name as a key for object constancy
+
+                        // Enter selection: Create new circles for new data elements
+                        circles.enter().append("circle")
+                            .attr('cx', d => xScale(d['Generation']) + (Math.random() - 0.5) * 20) // Apply jittering if needed
+                            .attr('cy', d => yScale(d['Total']) + (Math.random() - 0.5) * 20)
+                            .attr('r', 5)
+                            .attr('opacity', 0.5)
+                            .style('fill', d => typeScale(d['Type I']))
+                            .merge(circles) // Merge enter and update selections
+                            .on("mouseover", showTooltip)
+                            .on("mouseout", unshowtooltip);
+
+                        // Update selection: Update attributes of existing circles
+                        circles
+                            .attr('cx', d => xScale(d['Generation']) + (Math.random() - 0.5) * 20)
+                            .attr('cy', d => yScale(d['Total']) + (Math.random() - 0.5) * 20)
+                            .style('fill', d => typeScale(d['Type I'])); // If you want to update the fill based on the filter
+
+                        // Exit selection: Remove circles that no longer match the filter
+                        circles.exit().remove();
+                    }
+
+                    function showTooltip(event, d){
                         // Define stats and maximum value for scaling the bars
                         const stats = [
                             { name: 'HP', value: d['HP'] },
@@ -252,9 +326,9 @@
                                 .style('stroke-width', 3);
 
                         }
-                    })
+                    }
 
-                    .on("mouseout", function (event, d) {
+                    function unshowtooltip(event, d) {
                         tooltip.transition()
                             .duration(500)
                             .style("opacity", 0);
@@ -265,7 +339,9 @@
                                 .style('stroke', "none")
                         }
 
-                    });
+                    }
+
+
 
 
 
