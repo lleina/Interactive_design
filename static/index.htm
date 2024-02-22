@@ -5,15 +5,20 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
 
-    <div id="type-selection">
-        <div>Select Types:</div>
-        <!-- Dynamically populate types as checkboxes -->
-    </div>
-    
     <div id="filter-mode">
-        <label><input type="radio" name="filterMode" value="or" checked> OR</label>
+        select filter mode:
+        <label><input type="radio" name="filterMode" value="all" checked> ALL</label>
+        <label><input type="radio" name="filterMode" value="or"> OR</label>
         <label><input type="radio" name="filterMode" value="and"> AND</label>
     </div>
+
+    <div id="type-selection">
+        <div>Select Types:</div>
+
+        <!-- Dynamically populate types as checkboxes -->
+
+    </div>
+
 
     <style>
         .gridlines line {
@@ -40,6 +45,11 @@
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
         }
 
+        #type-selection input[type='checkbox']:disabled+label {
+            color: #999;
+
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -59,7 +69,7 @@
         const chartWidth = width - margins.left - margins.right;
         const chartHeight = height - margins.top - margins.bottom;
         let selectedPoints = [];
-        
+
 
         var comparisonDiv = d3.select("body").append("div")
             .attr("class", "comparison")
@@ -81,11 +91,8 @@
                 });
                 console.log(typeExtent)
 
-
-
-
                 const typeSelectionDiv = d3.select("#type-selection");
-                typeExtent.forEach(function(type) {
+                typeExtent.forEach(function (type) {
                     typeSelectionDiv.append("label")
                         .text(type)
                         .append("input")
@@ -93,7 +100,7 @@
                         .attr("name", "type")
                         .attr("value", type)
                         .style("margin-left", "5px")
-                        .style("margin-right", "15px"); // Style as needed
+                        .style("margin-right", "15px");
                 });
                 yScale = d3.scaleLinear().domain(yExtent).range([chartHeight, 0]);
                 xScale = d3.scaleLinear().domain(xExtent).range([0, chartWidth]);
@@ -230,121 +237,133 @@
 
                     .on("mouseout", unshowtooltip);
 
-                    d3.selectAll("#type-selection input[type='checkbox'], #filter-mode input[type='radio']").on("change", function() {
-                        updateChart();
-                    });
+                d3.selectAll("#type-selection input[type='checkbox'], #filter-mode input[type='radio']").on("change", function () {
+                    updateChart();
+                });
+                //start of page want it disabled;
+                d3.selectAll("#type-selection input[type='checkbox']")
+                    .property('disabled', true);
 
-                    function updateChart() {
-                        // Assuming filteredData is your data array after applying the filter
-                        const selectedTypes = d3.selectAll("#type-selection input[type='checkbox']:checked").nodes().map(el => el.value);
-                        const filterMode = d3.select("#filter-mode input[type='radio']:checked").node().value;
+                function updateChart() {
+                    const selectedTypes = d3.selectAll("#type-selection input[type='checkbox']:checked").nodes().map(el => el.value);
+                    const filterMode = d3.select("#filter-mode input[type='radio']:checked").node().value;
 
-                        let filteredData;
-                        if (filterMode === "or") {
+                    let filteredData;
+                    if (filterMode === "or") {
+                        d3.selectAll("#type-selection input[type='checkbox']").property('disabled', false);
+                        filteredData = dataset.filter(d => selectedTypes.includes(d['Type I']) || selectedTypes.includes(d['Type II']));
+                    } else if (filterMode === "and") {
+                        d3.selectAll("#type-selection input[type='checkbox']").property('disabled', false);
+                        if (selectedTypes.length === 0) {
+                            // Show nothin
+                            filteredData = {};
+                        } else if (selectedTypes.length === 1) {
+                            // Show data where either 'Type I' or 'Type II' matches the selected type
                             filteredData = dataset.filter(d => selectedTypes.includes(d['Type I']) || selectedTypes.includes(d['Type II']));
-                        } else if (filterMode === "and") {
-                            filteredData = dataset.filter(d => selectedTypes.length === 0 || (selectedTypes.includes(d['Type I']) && selectedTypes.includes(d['Type II'])) || (selectedTypes.includes(d['Type II']) && selectedTypes.includes(d['Type I'])));
+                        } else {
+                            // Show data where both 'Type I' and 'Type II' match the selected types
+                            filteredData = dataset.filter(d => selectedTypes.includes(d['Type I']) && selectedTypes.includes(d['Type II']));
                         }
-
-                        // Bind filtered data to circles
-                        const circles = chartArea.selectAll("circle")
-                            .data(filteredData, d => d.Pokemon); // Use Pokemon name as a key for object constancy
-
-                        // Enter selection: Create new circles for new data elements
-                        circles.enter().append("circle")
-                            .attr('cx', d => xScale(d['Generation']) + (Math.random() - 0.5) * 20) // Apply jittering if needed
-                            .attr('cy', d => yScale(d['Total']) + (Math.random() - 0.5) * 20)
-                            .attr('r', 5)
-                            .attr('opacity', 0.5)
-                            .style('fill', d => typeScale(d['Type I']))
-                            .merge(circles) // Merge enter and update selections
-                            .on("mouseover", showTooltip)
-                            .on("mouseout", unshowtooltip);
-
-                        // Update selection: Update attributes of existing circles
-                        circles
-                            .attr('cx', d => xScale(d['Generation']) + (Math.random() - 0.5) * 20)
-                            .attr('cy', d => yScale(d['Total']) + (Math.random() - 0.5) * 20)
-                            .style('fill', d => typeScale(d['Type I'])); // If you want to update the fill based on the filter
-
-                        // Exit selection: Remove circles that no longer match the filter
-                        circles.exit().remove();
+                    } else if (filterMode === "all") {
+                        d3.selectAll("#type-selection input[type='checkbox']").property('disabled', true);
+                        filteredData = dataset;
                     }
 
-                    function showTooltip(event, d){
-                        // Define stats and maximum value for scaling the bars
-                        const stats = [
-                            { name: 'HP', value: d['HP'] },
-                            { name: 'Attack', value: d['Atk'] },
-                            { name: 'Defense', value: d['Def'] },
-                            { name: 'Sp. Atk', value: d['SpA'] },
-                            { name: 'Sp. Def', value: d['SpD'] },
-                            { name: 'Speed', value: d['Spe'] }
-                        ];
-                        const maxStatValue = 255;
+                    // Bind filtered data to circles
+                    const circles = chartArea.selectAll("circle")
+                        .data(filteredData, d => d.Pokemon); // Use Pokemon name as a key for object constancy
 
-                        // Convert Pokémon name to match the URL format (assuming names are already standardized in your dataset)
-                        let pokemonNameForUrl = d['Pokemon'].toLowerCase().replace(/ /g, '-');
+                    // Enter selection: Create new circles for new data elements
+                    circles.enter().append("circle")
+                        .attr('cx', d => xScale(d['Generation']) + (Math.random() - 0.5) * 20) // Apply jittering if needed
+                        .attr('cy', d => yScale(d['Total']) + (Math.random() - 0.5) * 20)
+                        .attr('r', 5)
+                        .attr('opacity', 0.5)
+                        .style('fill', d => typeScale(d['Type I']))
+                        .merge(circles) // Merge enter and update selections
+                        .on("mouseover", showTooltip)
+                        .on("mouseout", unshowtooltip);
 
-                        // Construct the sprite URL
-                        let spriteUrl = `https://img.pokemondb.net/sprites/home/normal/${pokemonNameForUrl}.png`;
 
-                        // Start building the tooltip content with Pokémon name, types, and sprite
-                        let tooltipHtml = `<strong>${d['Pokemon']}</strong><br/>
+                    // Update selection: Update attributes of existing circles
+                    circles
+                        .attr('cx', d => xScale(d['Generation']) + (Math.random() - 0.5) * 20)
+                        .attr('cy', d => yScale(d['Total']) + (Math.random() - 0.5) * 20)
+                        .style('fill', d => typeScale(d['Type I'])); // If you want to update the fill based on the filter
+
+                    // Exit selection: Remove circles that no longer match the filter
+                    circles.exit().remove();
+                }
+
+                function showTooltip(event, d) {
+                    // Define stats and maximum value for scaling the bars
+                    const stats = [
+                        { name: 'HP', value: d['HP'] },
+                        { name: 'Attack', value: d['Atk'] },
+                        { name: 'Defense', value: d['Def'] },
+                        { name: 'Sp. Atk', value: d['SpA'] },
+                        { name: 'Sp. Def', value: d['SpD'] },
+                        { name: 'Speed', value: d['Spe'] }
+                    ];
+                    const maxStatValue = 255;
+
+                    // Convert Pokémon name to match the URL format (assuming names are already standardized in your dataset)
+                    let pokemonNameForUrl = d['Pokemon'].toLowerCase().replace(/ /g, '-');
+
+                    // Construct the sprite URL
+                    let spriteUrl = `https://img.pokemondb.net/sprites/home/normal/${pokemonNameForUrl}.png`;
+
+                    // Start building the tooltip content with Pokémon name, types, and sprite
+                    let tooltipHtml = `<strong>${d['Pokemon']}</strong><br/>
                                                     <img src="${spriteUrl}" alt="${d['Pokemon']}" style="width:100px; height:100px;"><br/>
                                                     Type: ${d['Type I']}` + (d['Type II'] ? `, ${d['Type II']}` : "") + `<br/>`;
 
 
-                        // Add an SVG container for the stats bar chart
-                        tooltipHtml += `<svg width="200" height="${stats.length * 20}" xmlns="http://www.w3.org/2000/svg">`;
+                    // Add an SVG container for the stats bar chart
+                    tooltipHtml += `<svg width="200" height="${stats.length * 20}" xmlns="http://www.w3.org/2000/svg">`;
 
-                        // Generate bars for each stat
-                        stats.forEach((stat, index) => {
-                            const barWidth = (stat.value / maxStatValue) * 180; // Scale bar width
-                            tooltipHtml += `<text x="0" y="${index * 20 + 15}" font-size="10">${stat.name}</text>`;
-                            tooltipHtml += `<rect x="50" y="${index * 20 + 10}" width="${barWidth}" height="10" style="fill:steelblue;"></rect>`;
-                            tooltipHtml += `<text x="${barWidth + 55}" y="${index * 20 + 15}" font-size="10">${stat.value}</text>`;
-                        });
+                    // Generate bars for each stat
+                    stats.forEach((stat, index) => {
+                        const barWidth = (stat.value / maxStatValue) * 180; // Scale bar width
+                        tooltipHtml += `<text x="0" y="${index * 20 + 15}" font-size="10">${stat.name}</text>`;
+                        tooltipHtml += `<rect x="50" y="${index * 20 + 10}" width="${barWidth}" height="10" style="fill:steelblue;"></rect>`;
+                        tooltipHtml += `<text x="${barWidth + 55}" y="${index * 20 + 15}" font-size="10">${stat.value}</text>`;
+                    });
 
-                        tooltipHtml += `</svg>`;
+                    tooltipHtml += `</svg>`;
 
-                        // Display the tooltip
-                        tooltip.transition()
-                            .duration(200)
-                            .style("opacity", .9);
-                        tooltip.html(tooltipHtml)
-                            .style("left", (event.pageX + 10) + "px")
-                            .style("top", (event.pageY - 28) + "px");
+                    // Display the tooltip
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    tooltip.html(tooltipHtml)
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY - 28) + "px");
 
-                        // console.log(selectedPoints)
-                        // console.log(this)
-                        if (!selectedPoints.includes(d)) {
-                            d3.select(this)
-                                .attr("opacity", 1)
-                                .attr("r", "8px")
-                                .style('stroke', 'black')
-                                .style('stroke-width', 3);
-
-                        }
-                    }
-
-                    function unshowtooltip(event, d) {
-                        tooltip.transition()
-                            .duration(500)
-                            .style("opacity", 0);
-                        if (!selectedPoints.includes(d)) {
-                            d3.select(this)
-                                .attr("r", "5px")
-                                .attr("opacity", 0.5)
-                                .style('stroke', "none")
-                        }
+                    // console.log(selectedPoints)
+                    // console.log(this)
+                    if (!selectedPoints.includes(d)) {
+                        d3.select(this)
+                            .attr("opacity", 1)
+                            .attr("r", "8px")
+                            .style('stroke', 'black')
+                            .style('stroke-width', 3);
 
                     }
+                }
 
+                function unshowtooltip(event, d) {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                    if (!selectedPoints.includes(d)) {
+                        d3.select(this)
+                            .attr("r", "5px")
+                            .attr("opacity", 0.5)
+                            .style('stroke', "none")
+                    }
 
-
-
-
+                }
 
                 chartArea.raise()
 
