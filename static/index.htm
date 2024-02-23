@@ -56,7 +56,7 @@
         Leina Li (ll736), Aditya Manthri (anm97)
     </h3>
     <svg id="scattersvg" height="600" width="600"></svg>
-    <svg id="comparesvg" height="600" width="600" style="border:1px solid black"></svg>
+    <svg id="comparesvg" height="600" width="800" style="border:1px solid black"></svg>
     <script>
         const scatsvg = d3.select("svg#scattersvg");
         const tooltip = d3.select("body").append("div")
@@ -372,7 +372,7 @@
                 const compsvg = d3.select("svg#comparesvg");
                 compwidth = compsvg.attr("width");
                 compheight = compsvg.attr("height");
-                const compMargin = { top: 50, right: 20, bottom: 70, left: 70 };
+                const compMargin = { top: 100, right: 20, bottom: 70, left: 30 };
                 const compWidth = compwidth - compMargin.left - compMargin.right;
                 const compHeight = compheight - compMargin.top - compMargin.bottom;
 
@@ -389,7 +389,7 @@
                 }
 
                 let selectedPokemons = d3.map(selectedPoints, d => d['Pokemon']);
-                const botScale = d3.scaleBand().domain(selectedPokemons).range([0, compWidth / 3 - 50])
+                const botScale = d3.scaleBand().domain(selectedPokemons).range([0, compWidth / 6 - 10])
                     .padding(0.05);
 
                 // create HP Chart
@@ -400,7 +400,7 @@
                 let hpExtent = d3.extent(data, d => d['HP']);
                 let hpScale = d3.scaleLinear().domain(hpExtent).range([compHeight, 0])
                 let hpAxis = d3.axisLeft(hpScale).tickSize(0);
-                let hpGrid = d3.axisLeft(hpScale).tickSize(-compWidth / 3 + 50).tickFormat("");
+                let hpGrid = d3.axisLeft(hpScale).tickSize(-compWidth / 7 + 10).tickFormat("");
                 let hpBottomAxis = d3.axisBottom();
                 let hpBottomAxisG = hpAnnot.append("g")
                     .attr("class", "x axis")
@@ -417,60 +417,125 @@
 
                 // create Attack Chart
                 let atkAnnot = compsvg.append("g").attr("id", "attackA")
+                const atkChart = compsvg.append("g")
+                    .attr("transform", "translate(" + (compMargin.left + compWidth / 7.5 + 30) + "," + compMargin.top + ")")
+                    .attr("id", "Attack");
                 let atkExtent = d3.extent(data, d => d['Atk']);
                 let atkScale = d3.scaleLinear().domain(atkExtent).range([compHeight, 0])
                 let atkAxis = d3.axisLeft(atkScale).tickSize(0);
-                let atkGrid = d3.axisLeft(atkScale).tickSize(-compWidth / 3 + 50).tickFormat("");
+                let atkGrid = d3.axisLeft(atkScale).tickSize(-compWidth / 7.5 + 20).tickFormat("");
                 let atkBottomAxis = d3.axisBottom();
                 let atkBottomAxisG = atkAnnot.append("g")
                     .attr("class", "x axis")
-                    .attr("transform", `translate(${compMargin.left + compWidth / 3},${compHeight + compMargin.top})`)
+                    .attr("transform", `translate(${compMargin.left + compWidth / 7.5 + 20},${compHeight + compMargin.top})`)
                 atkAnnot.append("g")
-                    .attr("transform", "translate(" + (compMargin.left + compWidth / 3) + "," + compMargin.top + ")")
+                    .attr("transform", "translate(" + (compMargin.left + compWidth / 7.5 + 20) + "," + compMargin.top + ")")
                     .call(atkAxis)
                 atkAnnot.append("g")
                     .attr("class", "gridlines")
-                    .attr("transform", "translate(" + (compMargin.left + compWidth / 3) + "," + compMargin.top + ")")
+                    .attr("transform", "translate(" + (compMargin.left + compWidth / 7.5 + 20) + "," + compMargin.top + ")")
                     .call(atkGrid)
                 atkBottomAxisG.transition().call(hpBottomAxis);
 
                 // create defense chart
                 let defAnnot = compsvg.append("g").attr("id", "defenseA")
-                const atkChart = compsvg.append("g")
-                    .attr("transform", "translate(" + (compMargin.left + compWidth / 3 + 5) + "," + compMargin.top + ")")
-                    .attr("id", "Attack");
                 const defChart = compsvg.append("g")
-                    .attr("transform", "translate(" + (compMargin.left + 2 * compWidth / 3 + 5) + "," + compMargin.top + ")")
+                    .attr("transform", "translate(" + (compMargin.left + 2 * compWidth / 7 + 40) + "," + compMargin.top + ")")
                     .attr("id", "Defense");
                 let defExtent = d3.extent(data, d => d['Def']);
                 let defScale = d3.scaleLinear().domain(defExtent).range([compHeight, 0])
                 let defAxis = d3.axisLeft(defScale).tickSize(0);
-                let defGrid = d3.axisLeft(defScale).tickSize(-compWidth / 3 + 50).tickFormat("");
+                let defGrid = d3.axisLeft(defScale).tickSize(-compWidth / 7 + 10).tickFormat("");
                 let defBottomAxis = d3.axisBottom();
                 let defBottomAxisG = defAnnot.append("g")
                     .attr("class", "x axis")
-                    .attr("transform", `translate(${compMargin.left + 2 * compWidth / 3},${compHeight + compMargin.top})`)
+                    .attr("transform", `translate(${compMargin.left + 2 * compWidth / 7 + 40},${compHeight + compMargin.top})`)
                 defAnnot.append("g")
-                    .attr("transform", "translate(" + (compMargin.left + 2 * compWidth / 3) + "," + compMargin.top + ")")
+                    .attr("transform", "translate(" + (compMargin.left + 2 * compWidth / 7 + 40) + "," + compMargin.top + ")")
                     .call(defAxis)
                 defAnnot.append("g")
                     .attr("class", "gridlines")
-                    .attr("transform", "translate(" + (compMargin.left + 2 * compWidth / 3) + "," + compMargin.top + ")")
+                    .attr("transform", "translate(" + (compMargin.left + 2 * compWidth / 7 + 40) + "," + compMargin.top + ")")
                     .call(defGrid)
                 defBottomAxisG.transition().call(hpBottomAxis);
 
+                // create Sp. Attack Chart
+                let spaAnnot = compsvg.append("g").attr("id", "spaA")
+                const spaChart = compsvg.append("g")
+                    .attr("transform", "translate(" + (compMargin.left + 3 * compWidth / 7 + 60) + "," + compMargin.top + ")")
+                    .attr("id", "SpA");
+                let spaExtent = d3.extent(data, d => d['SpA']);
+                let spaScale = d3.scaleLinear().domain(spaExtent).range([compHeight, 0])
+                let spaAxis = d3.axisLeft(spaScale).tickSize(0);
+                let spaGrid = d3.axisLeft(spaScale).tickSize(-compWidth / 7 + 10).tickFormat("");
+                let spaBottomAxis = d3.axisBottom();
+                let spaBottomAxisG = spaAnnot.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", `translate(${compMargin.left + 3 * compWidth / 7 + 60},${compHeight + compMargin.top})`)
+                spaAnnot.append("g")
+                    .attr("transform", "translate(" + (compMargin.left + 3 * compWidth / 7 + 60) + "," + compMargin.top + ")")
+                    .call(spaAxis)
+                spaAnnot.append("g")
+                    .attr("class", "gridlines")
+                    .attr("transform", "translate(" + (compMargin.left + 3 * compWidth / 7 + 60) + "," + compMargin.top + ")")
+                    .call(spaGrid)
+                spaBottomAxisG.transition().call(hpBottomAxis);
+
+
+                let spdAnnot = compsvg.append("g").attr("id", "spdA")
+                const spdChart = compsvg.append("g")
+                    .attr("transform", "translate(" + (compMargin.left + 4 * compWidth / 7 + 80) + "," + compMargin.top + ")")
+                    .attr("id", "SpD");
+                let spdExtent = d3.extent(data, d => d['SpD']);
+                let spdScale = d3.scaleLinear().domain(spdExtent).range([compHeight, 0])
+                let spdAxis = d3.axisLeft(spdScale).tickSize(0);
+                let spdGrid = d3.axisLeft(spdScale).tickSize(-compWidth / 7 + 10).tickFormat("");
+                let spdBottomAxis = d3.axisBottom();
+                let spdBottomAxisG = spdAnnot.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", `translate(${compMargin.left + 4 * compWidth / 7 + 80},${compHeight + compMargin.top})`)
+                spdAnnot.append("g")
+                    .attr("transform", "translate(" + (compMargin.left + 4 * compWidth / 7 + 80) + "," + compMargin.top + ")")
+                    .call(spdAxis)
+                spdAnnot.append("g")
+                    .attr("class", "gridlines")
+                    .attr("transform", "translate(" + (compMargin.left + 4 * compWidth / 7 + 80) + "," + compMargin.top + ")")
+                    .call(spdGrid)
+                spdBottomAxisG.transition().call(hpBottomAxis);
+
+
+                let speAnnot = compsvg.append("g").attr("id", "speA")
+                const speChart = compsvg.append("g")
+                    .attr("transform", "translate(" + (compMargin.left + 5 * compWidth / 7 + 100) + "," + compMargin.top + ")")
+                    .attr("id", "Spe");
+                let speExtent = d3.extent(data, d => d['Spe']);
+                let speScale = d3.scaleLinear().domain(spdExtent).range([compHeight, 0])
+                let speAxis = d3.axisLeft(speScale).tickSize(0);
+                let speGrid = d3.axisLeft(speScale).tickSize(-compWidth / 7 + 10).tickFormat("");
+                let speBottomAxis = d3.axisBottom();
+                let speBottomAxisG = speAnnot.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", `translate(${compMargin.left + 5 * compWidth / 7 + 100},${compHeight + compMargin.top})`)
+                speAnnot.append("g")
+                    .attr("transform", "translate(" + (compMargin.left + 5 * compWidth / 7 + 100) + "," + compMargin.top + ")")
+                    .call(speAxis)
+                speAnnot.append("g")
+                    .attr("class", "gridlines")
+                    .attr("transform", "translate(" + (compMargin.left + 5 * compWidth / 7 + 100) + "," + compMargin.top + ")")
+                    .call(speGrid)
+                speBottomAxisG.transition().call(hpBottomAxis);
 
                 // console.log("MIIAOOO")
                 // console.log(selectedPoints)
                 // console.log("wooof")
 
-                function bar_creator(xChart, scaler, extenter, bottomscaller) {
+                function bar_creator(xChart, scaler, scale_attrib, extenter, bottomscaller) {
                     xChart.selectAll('rect').data(selectedPoints)
                         .join(enter => enter.append('rect')
                             .attr("fill", d => typeScale(d['Type I']))
                             .attr("x", d => bottomscaller(d['Pokemon']))
-                            .attr("y", d => scaler(d['HP']))
-                            .attr("height", d => scaler(extenter[0]) - scaler(d['HP']))
+                            .attr("y", d => scaler(d[scale_attrib]))
+                            .attr("height", d => scaler(extenter[0]) - scaler(d[scale_attrib]))
                             .attr("width", bottomscaller.bandwidth())
                             .attr("opacity", 0) // Set opacity low, then animate to 1 to make them fade in
                             .call(enter => enter.transition()
@@ -478,8 +543,8 @@
                             update => update.call(update => update.transition()  // Animate resizing and movement
                                 .attr("fill", d => typeScale(d['Type I']))
                                 .attr("x", d => bottomscaller(d['Pokemon']))
-                                .attr("y", d => scaler(d['HP']))
-                                .attr("height", d => scaler(extenter[0]) - scaler(d['HP']))
+                                .attr("y", d => scaler(d[scale_attrib]))
+                                .attr("height", d => scaler(extenter[0]) - scaler(d[scale_attrib]))
                                 .attr("width", bottomscaller.bandwidth()))
                                 .attr("opacity", 1),
                             exit => exit.call(exit => exit.transition().attr('opacity', 0).remove())) // Animate opacity to fade out
@@ -487,17 +552,21 @@
 
                 function update_comp() {
                     let selectedPokemons = d3.map(selectedPoints, d => d['Pokemon']);
-                    const botScale = d3.scaleBand().domain(selectedPokemons).range([0, compWidth / 3 - 50])
+                    const botScale = d3.scaleBand().domain(selectedPokemons).range([0, compWidth / 6 - 10])
                         .padding(0.05);
 
                     hpBottomAxis.scale(botScale)
                     hpBottomAxisG.transition().call(hpBottomAxis); // all x axes use the same values
                     atkBottomAxisG.transition().call(hpBottomAxis);
                     defBottomAxisG.transition().call(hpBottomAxis);
+                    spaBottomAxisG.transition().call(hpBottomAxis);
+                    spdBottomAxisG.transition().call(hpBottomAxis);
 
-                    bar_creator(hpChart, hpScale, hpExtent, botScale)
-                    bar_creator(defChart, defScale, defExtent, botScale)
-                    bar_creator(atkChart, atkScale, atkExtent, botScale)
+                    bar_creator(hpChart, hpScale, "HP", hpExtent, botScale)
+                    bar_creator(defChart, defScale, "Def", defExtent, botScale)
+                    bar_creator(atkChart, atkScale, "Atk", atkExtent, botScale)
+                    bar_creator(spaChart, spaScale, "SpA", spaExtent, botScale)
+                    bar_creator(spdChart, spdScale, "SpD", spdExtent, botScale)
 
                 }
 
