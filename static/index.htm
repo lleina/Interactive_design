@@ -388,39 +388,17 @@
                         .text("Select up to two points to compare");
                 }
 
-
-
-
-
-                let hpAnnot = compsvg.append("g").attr("id", "hpA")
-                let atkAnnot = compsvg.append("g").attr("id", "attackA")
-                let defAnnot = compsvg.append("g").attr("id", "defenseA")
-
-                const hpChart = compsvg.append("g")
-                    .attr("transform", "translate(" + (compMargin.left + 5) + "," + compMargin.top + ")")
-                    .attr("id", "HP");
-                const atkChart = compsvg.append("g")
-                    .attr("transform", "translate(" + (compMargin.left + compWidth / 3 + 5) + "," + compMargin.top + ")")
-                    .attr("id", "Attack");
-                const defChart = compsvg.append("g")
-                    .attr("transform", "translate(" + (compMargin.left + 2 * compWidth / 3 + 5) + "," + compMargin.top + ")")
-                    .attr("id", "Defense");
-
-                // domain of the scales
-
-                let hpExtent = d3.extent(data, d => d['HP']);
-                let atkExtent = d3.extent(data, d => d['Atk']);
-                let defExtent = d3.extent(data, d => d['Def']);
-
                 let selectedPokemons = d3.map(selectedPoints, d => d['Pokemon']);
                 const botScale = d3.scaleBand().domain(selectedPokemons).range([0, compWidth / 3 - 50])
                     .padding(0.05);
+
+                // create HP Chart
+                let hpAnnot = compsvg.append("g").attr("id", "hpA");
+                const hpChart = compsvg.append("g")
+                    .attr("transform", "translate(" + (compMargin.left + 5) + "," + compMargin.top + ")")
+                    .attr("id", "HP");
+                let hpExtent = d3.extent(data, d => d['HP']);
                 let hpScale = d3.scaleLinear().domain(hpExtent).range([compHeight, 0])
-                let atkScale = d3.scaleLinear().domain(atkExtent).range([compHeight, 0])
-                let defScale = d3.scaleLinear().domain(defExtent).range([compHeight, 0])
-
-
-
                 let hpAxis = d3.axisLeft(hpScale).tickSize(0);
                 let hpGrid = d3.axisLeft(hpScale).tickSize(-compWidth / 3 + 50).tickFormat("");
                 let hpBottomAxis = d3.axisBottom();
@@ -434,8 +412,13 @@
                     .attr("class", "gridlines")
                     .attr("transform", "translate(" + (compMargin.left) + "," + compMargin.top + ")")
                     .call(hpGrid)
+                hpBottomAxis.scale(botScale)
+                hpBottomAxisG.transition().call(hpBottomAxis);
 
-
+                // create Attack Chart
+                let atkAnnot = compsvg.append("g").attr("id", "attackA")
+                let atkExtent = d3.extent(data, d => d['Atk']);
+                let atkScale = d3.scaleLinear().domain(atkExtent).range([compHeight, 0])
                 let atkAxis = d3.axisLeft(atkScale).tickSize(0);
                 let atkGrid = d3.axisLeft(atkScale).tickSize(-compWidth / 3 + 50).tickFormat("");
                 let atkBottomAxis = d3.axisBottom();
@@ -449,8 +432,18 @@
                     .attr("class", "gridlines")
                     .attr("transform", "translate(" + (compMargin.left + compWidth / 3) + "," + compMargin.top + ")")
                     .call(atkGrid)
+                atkBottomAxisG.transition().call(hpBottomAxis);
 
-
+                // create defense chart
+                let defAnnot = compsvg.append("g").attr("id", "defenseA")
+                const atkChart = compsvg.append("g")
+                    .attr("transform", "translate(" + (compMargin.left + compWidth / 3 + 5) + "," + compMargin.top + ")")
+                    .attr("id", "Attack");
+                const defChart = compsvg.append("g")
+                    .attr("transform", "translate(" + (compMargin.left + 2 * compWidth / 3 + 5) + "," + compMargin.top + ")")
+                    .attr("id", "Defense");
+                let defExtent = d3.extent(data, d => d['Def']);
+                let defScale = d3.scaleLinear().domain(defExtent).range([compHeight, 0])
                 let defAxis = d3.axisLeft(defScale).tickSize(0);
                 let defGrid = d3.axisLeft(defScale).tickSize(-compWidth / 3 + 50).tickFormat("");
                 let defBottomAxis = d3.axisBottom();
@@ -464,11 +457,8 @@
                     .attr("class", "gridlines")
                     .attr("transform", "translate(" + (compMargin.left + 2 * compWidth / 3) + "," + compMargin.top + ")")
                     .call(defGrid)
-
-                hpBottomAxis.scale(botScale)
-                hpBottomAxisG.transition().call(hpBottomAxis); // all x axes use the same values
-                atkBottomAxisG.transition().call(hpBottomAxis);
                 defBottomAxisG.transition().call(hpBottomAxis);
+
 
                 // console.log("MIIAOOO")
                 // console.log(selectedPoints)
