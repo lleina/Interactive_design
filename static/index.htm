@@ -509,7 +509,7 @@
                     .attr("transform", "translate(" + (compMargin.left + 5 * compWidth / 7 + 100) + "," + compMargin.top + ")")
                     .attr("id", "Spe");
                 let speExtent = d3.extent(data, d => d['Spe']);
-                let speScale = d3.scaleLinear().domain(spdExtent).range([compHeight, 0])
+                let speScale = d3.scaleLinear().domain(speExtent).range([compHeight, 0])
                 let speAxis = d3.axisLeft(speScale).tickSize(0);
                 let speGrid = d3.axisLeft(speScale).tickSize(-compWidth / 7 + 10).tickFormat("");
                 let speBottomAxis = d3.axisBottom();
@@ -552,7 +552,7 @@
 
                 function update_comp() {
                     let selectedPokemons = d3.map(selectedPoints, d => d['Pokemon']);
-                    const botScale = d3.scaleBand().domain(selectedPokemons).range([0, compWidth / 6 - 10])
+                    const botScale = d3.scaleBand().domain(selectedPokemons).range([0, compWidth / 7 - 10])
                         .padding(0.05);
 
                     hpBottomAxis.scale(botScale)
@@ -561,12 +561,14 @@
                     defBottomAxisG.transition().call(hpBottomAxis);
                     spaBottomAxisG.transition().call(hpBottomAxis);
                     spdBottomAxisG.transition().call(hpBottomAxis);
+                    speBottomAxisG.transition().call(hpBottomAxis);
 
                     bar_creator(hpChart, hpScale, "HP", hpExtent, botScale)
                     bar_creator(defChart, defScale, "Def", defExtent, botScale)
                     bar_creator(atkChart, atkScale, "Atk", atkExtent, botScale)
                     bar_creator(spaChart, spaScale, "SpA", spaExtent, botScale)
-                    bar_creator(spdChart, spdScale, "SpD", spdExtent, botScale)
+                    bar_creator(spdChart, spdScale, "Spe", spdExtent, botScale)
+                    bar_creator(speChart, speScale, "Spe", speExtent, botScale)
 
                 }
 
