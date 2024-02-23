@@ -17,7 +17,6 @@
         <!-- Dynamically populate types as checkboxes -->
     </div>
 
-
     <style>
         .gridlines line {
             stroke: #bbb;
@@ -56,7 +55,17 @@
         Leina Li (ll736), Aditya Manthri (anm97)
     </h3>
     <svg id="scattersvg" height="600" width="600"></svg>
-    <svg id="comparesvg" height="600" width="800" style="border:1px solid black"></svg>
+    <svg id="comparesvg" height="600" width="800">
+        <text x="50" y="70">Health</text>
+        <text x="170" y="70">Attack</text>
+        <text x="300" y="70">Defense</text>
+        <text x="420" y="70">Sp. Attack</text>
+        <text x="540" y="70">Sp. Defense</text>
+        <text x="690" y="70">Speed</text>
+
+    </svg>
+    </section>
+
     <script>
         const scatsvg = d3.select("svg#scattersvg");
         const tooltip = d3.select("body").append("div")
@@ -372,7 +381,7 @@
                 const compsvg = d3.select("svg#comparesvg");
                 compwidth = compsvg.attr("width");
                 compheight = compsvg.attr("height");
-                const compMargin = { top: 100, right: 20, bottom: 70, left: 30 };
+                const compMargin = { top: 85, right: 20, bottom: 60, left: 30 };
                 const compWidth = compwidth - compMargin.left - compMargin.right;
                 const compHeight = compheight - compMargin.top - compMargin.bottom;
 
