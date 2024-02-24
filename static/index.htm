@@ -5,8 +5,17 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
 
+    <header>
+        <h1>Change of Pokemon's BST over Pokemon Generations</h1>
+        <p>This interactive tool allows you to explore and compare Pokémon Base Stat Totals (BST) across different generations. Use the filters below to select Pokémon by type, and search for specific Pokémon to see detailed statistics and comparisons.</p>
+
+    </header>
+    <h3>
+        Leina Li (ll736), Aditya Manthri (anm97)
+    </h3>
+
     <div id="filter-mode">
-        select filter mode:
+        Select filter mode:
         <label><input type="radio" name="filterMode" value="all" checked> ALL</label>
         <label><input type="radio" name="filterMode" value="or"> OR</label>
         <label><input type="radio" name="filterMode" value="and"> AND</label>
@@ -17,7 +26,12 @@
         <!-- Dynamically populate types as checkboxes -->
     </div>
 
+    <div id="search-container">
+        <input type="text" id="pokemonSearch" placeholder="Search Pokémon">
+    </div>
+
     <style>
+        
         .gridlines line {
             stroke: #bbb;
         }
@@ -47,14 +61,89 @@
 
             cursor: not-allowed;
         }
+
+        body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 20px;
+        }
+
+        h3 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #filter-mode, #type-selection, #search-container {
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #filter-mode label, #type-selection label {
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        #search-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        #pokemonSearch {
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: calc(100% - 22px); /* Adjust width considering padding and border */
+        }
+
+        svg {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        #scattersvg {
+            margin-right: 65px; /* Adjust the value as needed */
+        }
+
+        .tooltip {
+            font-size: 14px;
+        }
+
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        /* Improve the look of the radio buttons and checkboxes */
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        /* Style adjustments for labels next to disabled checkboxes */
+        #type-selection input[type='checkbox']:disabled+label {
+            color: #bbb;
+        }
     </style>
 </head>
 
 <body>
-    <h3>
-        Leina Li (ll736), Aditya Manthri (anm97)
-    </h3>
-    <svg id="scattersvg" height="600" width="600"></svg>
+    <svg id="scattersvg" height="600" width="800"></svg>
     <svg id="comparesvg" height="600" width="800">
         <text x="50" y="70">Health</text>
         <text x="170" y="70">Attack</text>
@@ -375,6 +464,7 @@
                             .text("Select up to two points to compare")
                     }
                     console.log(selectedPoints[0]);
+
                     update_comp();
                 }
 
@@ -581,10 +671,60 @@
 
                 }
 
+                
+                d3.select("#pokemonSearch").on("input", function() {
+                    const searchQuery = this.value.toLowerCase(); 
+                    updateChartsrch(searchQuery); 
+                });
+
+                function updateChartsrch(searchQuery = '') {
+                    let filteredData;
+                    if(searchQuery) {
+                        
+                        filteredData = dataset.filter(d => d.Pokemon.toLowerCase().includes(searchQuery));
+                    } else {
+                        
+                        filteredData = dataset;
+                    }
+                    
+                     
+                     const circles = chartArea.selectAll("circle")
+                        .data(filteredData, d => d.Pokemon); 
+
+                    
+                    circles.enter().append("circle")
+                        .attr('cx', d => xScale(d['Generation']) + (Math.random() - 0.5) * 20) 
+                        .attr('cy', d => yScale(d['Total']) + (Math.random() - 0.5) * 20)
+                        .attr('r', d => {
+                            const isSelected = selectedPoints.some(p => p.Pokemon === d.Pokemon);
+                            return isSelected ? 15 : 5;
+                        })
+                        .style('stroke', d => {
+                            const isSelected = selectedPoints.some(p => p.Pokemon === d.Pokemon);
+                            return isSelected ? 'black' : 'none'
+                        })
+                        .style('stroke-width', 3)
+                        .attr('opacity', d => {
+                            const isSelected = selectedPoints.some(p => p.Pokemon === d.Pokemon);
+                            return isSelected ? 0.8 : 0.5
+                        })
+                        .style('fill', d => typeScale(d['Type I']))
+                        .merge(circles) 
+                        .on("mouseover", showTooltip)
+                        .on("mouseout", unshowtooltip)
+                        .on("click", toggleSelection);
+
+                        
+                        circles
+                            .attr('cx', d => xScale(d['Generation']) + (Math.random() - 0.5) * 20)
+                            .attr('cy', d => yScale(d['Total']) + (Math.random() - 0.5) * 20)
+                            .style('fill', d => typeScale(d['Type I'])); // If you want to update the fill based on the filter
+
+                        // Exit selection: Remove circles that no longer match the filter
+                        circles.exit().remove();
+                }
+
                 chartArea.raise()
-
-
-
             });
 
     </script>
