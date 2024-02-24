@@ -384,7 +384,7 @@ Nat,Pokemon,HP,Atk,Def,SpA,SpD,Spe,Total,Type I,Type II,Ability I,Ability II,Hid
 383,Groudon,100,150,140,100,90,90,670,Ground,,Drought,,,3 Atk,None,-,,3,N,3
 384,Rayquaza,105,150,90,150,90,95,680,Dragon,Flying,Air Lock,,,2 Atk/1 SpA,None,-,,45,N,3
 385,Jirachi,100,100,100,100,100,100,600,Steel,Psychic,Serene Grace,,,3 HP,None,-,,3,N,3
-386,Deoxys (N),50,150,50,150,50,150,600,Psychic,,Pressure,,,1 Atk/1 SpA/1 Spe,None,-,,3,N,3
+386,Deoxys,50,150,50,150,50,150,600,Psychic,,Pressure,,,1 Atk/1 SpA/1 Spe,None,-,,3,N,3
 387,Turtwig,55,68,64,45,55,31,318,Grass,,Overgrow,,Shell Armor,1 Atk,M (87.5%),Monster,Grass,45,,4
 388,Grotle,75,89,85,55,65,36,405,Grass,,Overgrow,,Shell Armor,1 Atk/1 Def,M (87.5%),Monster,Grass,45,Lv. 18,4
 389,Torterra,95,109,105,75,85,56,525,Grass,Ground,Overgrow,,Shell Armor,2 Atk/1 Def,M (87.5%),Monster,Grass,45,Lv. 32,4
@@ -739,7 +739,7 @@ Nat,Pokemon,HP,Atk,Def,SpA,SpD,Spe,Total,Type I,Type II,Ability I,Ability II,Hid
 738,Vikavolt,77,70,90,145,75,43,500,Bug,Electric,Levitate,,,3 SpA,Neutral,Bug,,45,Magnet Field or Thunderstone,7
 739,Crabrawler,47,82,57,42,47,63,338,Fighting,,Hyper Cutter,Iron Fist,Anger Point,1 Atk,Neutral,Water 3,,255,,7
 740,Crabominable,97,132,77,62,67,43,478,Fighting,Ice,Hyper Cutter,Iron Fist,Anger Point,2 Atk,Neutral,Water 3,,60,Level up in Mount Lanakila,7
-741,Pom Oricorio,75,70,70,98,70,93,476,Electric,Flying,Dancer,,,2 SpA,F (75%),Flying,,45,N,7
+741,Oricorio,75,70,70,98,70,93,476,Electric,Flying,Dancer,,,2 SpA,F (75%),Flying,,45,N,7
 742,Cutiefly,40,45,40,55,40,84,304,Bug,Fairy,Honey Gather,Sheild Dust,Sweet Veil,1 Spd,Neutral,Bug,Fairy,190,,7
 743,Ribombee,60,55,60,95,70,124,464,Bug,Fairy,Honey Gather,Sheild Dust,Sweet Veil,2 Spd,Neutral,Bug,Fairy,75,Level 25,7
 744,Rockruff,45,65,40,30,40,60,280,Rock,,Keen Eye,Vital Spirit,Steadfast,1 Atk,Neutral,Field,,190,,7
